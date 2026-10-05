@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BreachLedger — Historical SLA Evidence for Zendesk</title>
+<meta name="description" content="Reconstruct who owned a Zendesk ticket when the first-reply SLA expired — with evidence, not blame." />
+<style>
+:root{--bg:#f6f4ef;--card:#fff;--ink:#17201b;--muted:#66726c;--line:#ded9ce;--accent:#1e5d47;--soft:#e8f0ec;--warn:#fff3d8}*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}main{max-width:1080px;margin:auto;padding:48px 22px 72px}.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:800}.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:center}.hero h1{font-family:Georgia,serif;font-size:clamp(40px,6vw,70px);line-height:.98;margin:14px 0 20px;letter-spacing:-.035em}.hero p{font-size:19px;line-height:1.55;color:var(--muted);max-width:760px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{border:0;border-radius:12px;padding:14px 18px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.primary{background:var(--ink);color:white}.secondary{background:white;color:var(--ink);border:1px solid var(--line)}.proof{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 14px 38px #15211910}.proof strong{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}.proof h2{font-family:Georgia,serif;margin:10px 0 14px;font-size:28px}.proof dl{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0}.proof dt{font-size:12px;color:var(--muted)}.proof dd{margin:4px 0 0;font-weight:800}.section{margin-top:58px}.section h2{font-family:Georgia,serif;font-size:34px;margin:0 0 12px}.section>p{color:var(--muted);font-size:17px;max-width:760px}.demo{background:white;border:1px solid var(--line);border-radius:24px;padding:26px;margin-top:20px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.status{margin-left:auto;font-size:13px;color:var(--muted)}.results{display:none;margin-top:24px;gap:14px}.result{border:1px solid var(--line);border-radius:16px;padding:18px;background:#fff}.result.confirmed{border-color:#b6d4c7;background:#f5faf7}.result.indeterminate{background:#fffaf0}.badge{display:inline-block;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800;background:var(--soft)}.result.indeterminate .badge{background:var(--warn)}.result h3{margin:12px 0 12px;font-size:20px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.v{font-weight:750;margin-top:4px}.evidence{margin-top:14px;color:var(--muted);font-size:13px}.cta{margin-top:58px;background:var(--ink);color:#fff;border-radius:24px;padding:28px}.cta h2{font-family:Georgia,serif;font-size:34px;margin:0 0 10px}.cta p{color:#d9e1dd;max-width:720px}.cta .secondary{background:#fff}.note{font-size:12px;color:var(--muted);margin-top:14px}footer{margin-top:46px;color:var(--muted);font-size:13px}@media(max-width:800px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.status{width:100%;margin-left:0}}@media(max-width:520px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow">BreachLedger · Zendesk SLA Evidence</div>
+      <h1>Who owned the ticket when the SLA actually expired?</h1>
+      <p>Reconstruct historical assignee and group at the first-reply breach moment — before later reassignments make the current owner misleading. Evidence, not blame.</p>
+      <div class="actions">
+        <button class="btn primary" id="runTop">Run sample breach analysis</button>
+        <a class="btn secondary beta-link" data-location="hero" href="#">Use my Zendesk</a>
+      </div>
+    </div>
+    <aside class="proof">
+      <strong>Controlled proof</strong>
+      <h2>Core attribution: PASS</h2>
+      <dl>
+        <div><dt>SLA deadline</dt><dd>17:50:30 UTC</dd></div>
+        <div><dt>Owner at deadline</dt><dd>Soporte</dd></div>
+        <div><dt>Later group</dt><dd>BreachLedger Test Queue</dd></div>
+        <div><dt>Evidence</dt><dd>Zendesk event history</dd></div>
+      </dl>
+      <p class="note">BreachLedger identifies historical ownership. It does not claim the assignee caused the breach.</p>
+    </aside>
+  </section>
+
+  <section class="section">
+    <h2>Try the core job</h2>
+    <p>The sample mirrors Zendesk SLA metric events and ticket-audit ownership changes. Click once to reconstruct the owner at the deadline and surface ambiguous cases conservatively.</p>
+    <div class="demo">
+      <div class="toolbar">
+        <button class="btn primary" id="runDemo">Run breach analysis</button>
+        <a class="btn secondary" id="downloadCsv" href="sample-breach-report.csv" download>Download sample CSV</a>
+        <span class="status" id="status">Sample Zendesk · synthetic history</span>
+      </div>
+      <div class="results" id="results">
+        <article class="result confirmed">
+          <span class="badge">CONFIRMED</span>
+          <h3>Ticket #1001 · owner reconstructed at breach</h3>
+          <div class="grid">
+            <div><div class="k">SLA deadline</div><div class="v">10:00 UTC</div></div>
+            <div><div class="k">First reply</div><div class="v">10:20 UTC</div></div>
+            <div><div class="k">Assignee ID</div><div class="v">200</div></div>
+            <div><div class="k">Group ID</div><div class="v">20</div></div>
+          </div>
+          <div class="evidence">Evidence status: single realized deadline with complete ownership · Metric event 103</div>
+        </article>
+        <article class="result indeterminate">
+          <span class="badge">INDETERMINATE</span>
+          <h3>Ticket #1003 · multiple realized SLA deadlines</h3>
+          <div class="evidence">BreachLedger refuses to guess when the evidence does not support a unique attribution.</div>
+        </article>
+        <article class="result indeterminate">
+          <span class="badge">INDETERMINATE</span>
+          <h3>Ticket #1004 · incomplete ownership history</h3>
+          <div class="evidence">Missing assignment evidence prevents a confident historical assignee result.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>What the pilot would do</h2>
+    <p>Read-only analysis of first-reply SLA events and ticket audits, reconstructing historical assignee/group at breach time and exporting an evidence-led report. No ticket modification, no blame scoring, no invented root cause.</p>
+  </section>
+
+  <section class="cta">
+    <h2>Want BreachLedger to analyze your Zendesk?</h2>
+    <p>Request a private read-only pilot. We are testing whether support teams value historical SLA attribution enough to use it repeatedly.</p>
+    <div class="actions">
+      <a class="btn secondary beta-link" data-location="bottom" href="#">Request private pilot</a>
+    </div>
+  </section>
+  <footer>Montclar · BreachLedger validation build</footer>
+</main>
+<script>
+const POSTHOG_KEY = "phc_mWZm66WJrTdjjEwPDMMnLrEjQoBQkDcnUEUb9skq8kYW";
+const POSTHOG_HOST = "https://us.i.posthog.com";
+const qs = new URLSearchParams(location.search);
+const attribution = {
+  product: "breachledger",
+  source: qs.get("src") || qs.get("utm_source") || "direct",
+  campaign: qs.get("campaign") || qs.get("utm_campaign") || "none",
+  prospect: qs.get("prospect") || "anonymous"
+};
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify set_config reset opt_out_capturing opt_in_capturing get_distinct_id alias setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onFeatureFlags onSurveys onSessionId getFeatureFlag getFeatureFlagPayload isFeatureEnabled featureFlagOverrides featureFlagPayloadOverrides get_property getSessionPropertyProperties toString people.toString".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init(POSTHOG_KEY,{api_host:POSTHOG_HOST,person_profiles:"identified_only",capture_pageview:false,capture_pageleave:true});
+function track(name, props={}){
+  const payload={...attribution,...props,path:location.pathname};
+  try{posthog.capture(name,payload)}catch(e){}
+  try{const k="montclar_validation_events";const a=JSON.parse(localStorage.getItem(k)||"[]");a.push({name,props:payload,ts:new Date().toISOString()});localStorage.setItem(k,JSON.stringify(a.slice(-250)))}catch(e){}
+}
+track("page_view");
+let ran=false;
+function runAnalysis(locationName){
+  track("demo_started",{location:locationName});
+  const status=document.getElementById("status");
+  status.textContent="Replaying SLA events and ownership history…";
+  setTimeout(()=>{
+    document.getElementById("results").style.display="grid";
+    status.textContent="Analysis complete · 1 confirmed · 2 indeterminate";
+    track("analysis_completed",{confirmed:1,indeterminate:2});
+    track("breach_confirmed_viewed",{ticket_id:"1001"});
+    track("indeterminate_result_viewed",{count:2});
+    ran=true;
+  },450);
+}
+document.getElementById("runDemo").addEventListener("click",()=>runAnalysis("demo"));
+document.getElementById("runTop").addEventListener("click",()=>{document.getElementById("runDemo").scrollIntoView({behavior:"smooth",block:"center"});runAnalysis("hero")});
+document.getElementById("downloadCsv").addEventListener("click",()=>track("csv_downloaded",{after_analysis:ran}));
+for(const el of document.querySelectorAll(".beta-link")){
+  const subject="BreachLedger Private Pilot";
+  const body=encodeURIComponent(`Hi Samuel,\n\nI'd like BreachLedger to analyze our Zendesk.\n\nSource: ${attribution.source}\nCampaign: ${attribution.campaign}\nProspect: ${attribution.prospect}\n`);
+  el.href=`mailto:samuel@montclar.app?subject=${encodeURIComponent(subject)}&body=${body}`;
+  el.addEventListener("click",()=>{track("connect_zendesk_click",{location:el.dataset.location});track("pilot_requested",{location:el.dataset.location})});
+}
+</script>
+</body>
+</html>
