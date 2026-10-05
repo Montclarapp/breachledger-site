@@ -1,0 +1,4 @@
+ticket_id,result,deadline,fulfilled_at,assignee_id,group_id,confidence_reason,evidence_event_ids
+1001,CONFIRMED,2026-09-20T10:00:00+00:00,2026-09-20T10:20:00+00:00,200,20,single_realized_deadline_with_complete_ownership,103
+1003,INDETERMINATE,,2026-09-20T11:30:00+00:00,,,multiple_realized_sla_deadlines,302;304
+1004,INDETERMINATE,2026-09-20T10:00:00+00:00,2026-09-20T10:10:00+00:00,,40,incomplete_ownership_history,402
